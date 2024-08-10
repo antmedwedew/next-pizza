@@ -3,13 +3,13 @@ import React from 'react';
 
 type TitleSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
-interface Props {
+interface TitleProps {
   size?: TitleSize;
   className?: string;
   text: string;
 }
 
-export const Title: React.FC<Props> = ({ text, size = 'sm', className }) => {
+export const Title: React.FC<TitleProps> = ({ text, size = 'sm', className }) => {
   const mapTagBySize = {
     xs: 'h5',
     sm: 'h4',
