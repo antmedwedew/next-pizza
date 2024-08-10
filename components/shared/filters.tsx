@@ -11,21 +11,6 @@ interface FiltersProps {
   className?: string;
 }
 
-const defaultItems: FilterCheckboxProps[] = [
-  {
-    text: 'Сырный соус',
-    value: '1',
-  },
-  {
-    text: 'Моццарелла',
-    value: '2',
-  },
-  {
-    text: 'Томаты',
-    value: '3',
-  },
-];
-
 const items: FilterCheckboxProps[] = [
   {
     text: 'Сырный соус',
