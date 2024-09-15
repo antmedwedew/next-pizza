@@ -8,6 +8,17 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  SUCCEEDED
+  CANCELLED
+}
+
 // Пользователи - связь: Корзина, Заказы
 model User {
   id Int @id @default(autoincrement())
@@ -30,10 +41,6 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-enum UserRole {
-  USER
-  ADMIN
-}
 
 // Категории - связь: Товары
 model Category {
@@ -153,11 +160,6 @@ model Order {
   updatedAt DateTime @updatedAt
 }
 
-enum OrderStatus {
-  PENDING
-  SUCCEEDED
-  CANCELLED
-}
 
 // Код подтверждения пользователя - связь: Пользователь
 model VerificationCode {

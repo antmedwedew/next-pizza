@@ -55,21 +55,24 @@ async function up() {
     data: [
       // Обычные товары
       generateProductVariant(1),
+      generateProductVariant(2),
+      generateProductVariant(3),
+      generateProductVariant(4),
 
       // Пепперони фреш
-      generateProductVariant(2, 1, 20),
-      generateProductVariant(2, 2, 30),
-      generateProductVariant(2, 3, 40),
+      generateProductVariant(5, 1, 20),
+      generateProductVariant(5, 2, 30),
+      generateProductVariant(5, 3, 40),
 
       // Сырная
-      generateProductVariant(3, 1, 20),
-      generateProductVariant(3, 2, 30),
-      generateProductVariant(3, 3, 40),
+      generateProductVariant(6, 1, 20),
+      generateProductVariant(6, 2, 30),
+      generateProductVariant(6, 3, 40),
 
       //Чоризо фреш
-      generateProductVariant(4, 1, 20),
-      generateProductVariant(4, 2, 30),
-      generateProductVariant(4, 3, 40),
+      generateProductVariant(7, 1, 20),
+      generateProductVariant(7, 2, 30),
+      generateProductVariant(7, 3, 40),
     ],
   });
 

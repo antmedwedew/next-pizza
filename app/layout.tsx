@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={nunito.variable}>
+      <body suppressHydrationWarning={true} className={nunito.variable}>
         <Header />
         <main className="min-h-screen mb-8">{children}</main>
       </body>
