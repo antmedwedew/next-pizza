@@ -6,8 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
 import { Api } from '@/services/api-client';
-import { Product } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import useDebounce from '@/hooks/use-debounce';
+import ProductUncheckedCreateInput = Prisma.ProductUncheckedCreateInput;
 
 interface SearchInputProps {
   className?: string;
@@ -16,12 +17,12 @@ interface SearchInputProps {
 export const SearchInput: React.FC<SearchInputProps> = ({ className }) => {
   const [focused, setFocused] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductUncheckedCreateInput[]>([]);
 
   useDebounce(
     async () => {
       try {
-        const response: Product[] = await Api.products.search(searchQuery);
+        const response: ProductUncheckedCreateInput[] = await Api.products.search(searchQuery);
         setProducts(response);
       } catch (err) {
         console.log(err);
@@ -60,7 +61,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({ className }) => {
               focused && 'visible opacity-100 top-11',
             )}
           >
-            {products.map((product: Product) => (
+            {products.map((product: ProductUncheckedCreateInput) => (
               <Link
                 key={product.id}
                 href={`/product/${product.id}`}
