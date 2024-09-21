@@ -1,19 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma-client';
-import { Prisma } from '@prisma/client';
 
 export async function GET(req: NextRequest) {
   const query: string = req.nextUrl.searchParams.get('query') || '';
 
-  const products = await prisma.product.findMany({
-    where: {
-      name: {
-        contains: query,
-        mode: 'insensitive',
-      },
-    },
-    take: 5,
-  } as Prisma.ProductFindManyArgs);
+  const products = await prisma.product.findMany();
 
-  return NextResponse.json(products);
+  const filteredProducts = query
+    ? products.filter((product) => product.name.toLocaleLowerCase().includes(query.toLocaleLowerCase())).slice(0, 5)
+    : products.slice(0, 5);
+
+  return NextResponse.json(filteredProducts);
 }

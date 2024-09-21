@@ -7,7 +7,7 @@ import { Search } from 'lucide-react';
 import Link from 'next/link';
 import { Api } from '@/services/api-client';
 import { Product } from '@prisma/client';
-import useDebounce from '@/hooks/useDebounce';
+import useDebounce from '@/hooks/use-debounce';
 
 interface SearchInputProps {
   className?: string;
@@ -19,10 +19,13 @@ export const SearchInput: React.FC<SearchInputProps> = ({ className }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useDebounce(
-    () => {
-      Api.products.search(searchQuery).then((items: Product[]) => {
-        setProducts(items);
-      });
+    async () => {
+      try {
+        const response: Product[] = await Api.products.search(searchQuery);
+        setProducts(response);
+      } catch (err) {
+        console.log(err);
+      }
     },
     250,
     [searchQuery],
