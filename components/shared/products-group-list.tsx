@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Title } from '@/components/shared/title';
 import { ProductCard } from '@/components/shared/product-card';
-import useIntersection from '@/hooks/useIntersection';
+import useIntersection from '@/hooks/use-intersection';
 import { useCategoryStore } from '@/store/category';
 
 interface ProductsGroupListProps {
