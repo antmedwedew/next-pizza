@@ -8,12 +8,11 @@ import { RangeSlider } from '@/components/shared/range-slider';
 import { CheckboxFiltersGroup } from '@/components/shared/checkbox-filters-group';
 import { Button } from '@/components/ui/button';
 import { Api } from '@/services/api-client';
-import { Prisma } from '@prisma/client';
+import { Ingredient } from '@prisma/client';
 import useSet from '@/hooks/use-set';
 import qs from 'qs';
 import { ReadonlyURLSearchParams, useRouter, useSearchParams } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import IngredientUncheckedCreateInput = Prisma.IngredientUncheckedCreateInput;
 
 interface FiltersProps {
   className?: string;
@@ -29,7 +28,7 @@ export const Filters: React.FC<FiltersProps> = ({ className }) => {
   const router: AppRouterInstance = useRouter();
   const maxPrice: number = 5000;
 
-  const [ingredients, setIngredients] = useState<IngredientUncheckedCreateInput[]>([]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [isLoadingIngredients, setIsLoadingIngredients] = useState<boolean>(true);
   const [selectedIngredients, { toggle: toggleIngredients }] = useSet(
     new Set<string>((searchParams.get('ingredients') as string)?.split(',') || []),
@@ -46,8 +45,8 @@ export const Filters: React.FC<FiltersProps> = ({ className }) => {
   });
 
   useEffect(() => {
-    Api.ingredients.getAll().then((data: IngredientUncheckedCreateInput[]) => {
-      setIngredients(data);
+    Api.ingredients.getAll().then((result: Ingredient[]) => {
+      setIngredients(result);
       setIsLoadingIngredients(false);
     });
   }, []);
@@ -137,7 +136,7 @@ export const Filters: React.FC<FiltersProps> = ({ className }) => {
         className="mt-5"
         limit={5}
         title="Ингредиенты:"
-        items={ingredients.map((ingredient: IngredientUncheckedCreateInput) => ({
+        items={ingredients.map((ingredient: Ingredient) => ({
           text: ingredient.name,
           value: String(ingredient.id),
         }))}
