@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import Image from 'next/image';
 import { ArrowRight, ShoppingCart, User } from 'lucide-react';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ interface HeaderProps {
   className?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ className }) => {
+export const Header: FC<HeaderProps> = ({ className }) => {
   return (
     <header className={cn('border border-b', className)}>
       <Container className="flex items-center justify-between py-8">

@@ -18,7 +18,7 @@ async function up() {
     data: products,
   });
 
-  const pizza1 = await prisma.product.create({
+  const pizza1: any = await prisma.product.create({
     data: {
       name: 'Пепперони фреш',
       imageUrl: 'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp',
@@ -29,7 +29,7 @@ async function up() {
     },
   });
 
-  const pizza2 = await prisma.product.create({
+  const pizza2: any = await prisma.product.create({
     data: {
       name: 'Сырная',
       imageUrl: 'https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp',
@@ -40,7 +40,7 @@ async function up() {
     },
   });
 
-  const pizza3 = await prisma.product.create({
+  const pizza3: any = await prisma.product.create({
     data: {
       name: 'Чоризо фреш',
       imageUrl: 'https://media.dodostatic.net/image/r:584x584/11EE7D61706D472F9A5D71EB94149304.webp',
@@ -60,19 +60,25 @@ async function up() {
       generateProductVariant(4),
 
       // Пепперони фреш
-      generateProductVariant(5, 1, 20),
-      generateProductVariant(5, 2, 30),
-      generateProductVariant(5, 3, 40),
+      generateProductVariant(pizza1.id, 1, 20),
+      generateProductVariant(pizza1.id, 1, 30),
+      generateProductVariant(pizza1.id, 1, 40),
+      generateProductVariant(pizza1.id, 2, 20),
+      generateProductVariant(pizza1.id, 2, 30),
+      generateProductVariant(pizza1.id, 2, 40),
 
       // Сырная
-      generateProductVariant(6, 1, 20),
-      generateProductVariant(6, 2, 30),
-      generateProductVariant(6, 3, 40),
+      generateProductVariant(pizza2.id, 1, 20),
+      generateProductVariant(pizza2.id, 1, 30),
+      generateProductVariant(pizza2.id, 1, 40),
+      generateProductVariant(pizza2.id, 2, 20),
+      generateProductVariant(pizza2.id, 2, 30),
+      generateProductVariant(pizza2.id, 2, 40),
 
       //Чоризо фреш
-      generateProductVariant(7, 1, 20),
-      generateProductVariant(7, 2, 30),
-      generateProductVariant(7, 3, 40),
+      generateProductVariant(pizza3.id, 1, 20),
+      generateProductVariant(pizza3.id, 1, 30),
+      generateProductVariant(pizza3.id, 2, 40),
     ],
   });
 

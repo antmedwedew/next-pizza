@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { cn } from '@/shared/lib/utils';
 
 interface ProductImageProps {
@@ -10,17 +10,10 @@ interface ProductImageProps {
   isDashed?: boolean;
 }
 
-export const ProductImage: React.FC<ProductImageProps> = ({
-  className,
-  url,
-  alt,
-  size,
-  isBcg = true,
-  isDashed = true,
-}) => {
+export const ProductImage: FC<ProductImageProps> = ({ className, url, alt, size, isBcg = true, isDashed = true }) => {
   return (
     <div
-      className={cn('rounded-lg p-7 relative flex items-center justify-center', className, {
+      className={cn('rounded-lg relative flex items-center justify-center w-[570px] h-[570px]', className, {
         'bg-secondary': isBcg,
       })}
     >
@@ -30,15 +23,14 @@ export const ProductImage: React.FC<ProductImageProps> = ({
         className={cn('relative left-2 top-2 transition-all z-10 duration-200', {
           'w-[300px] h-[300px]': size === 20,
           'w-[400px] h-[400px]': size === 30,
-          'w-[500px] h-[500px]': size === 40,
-          'w-[350px] h-[350px]': !isDashed,
+          'w-[500px] h-[500px]': size === 40 || !isDashed,
         })}
       />
 
       {isDashed && (
         <>
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-dashed rounded-full border-gray-300 w-[450px] h-[450px]"></div>
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-dotted rounded-full border-gray-200 w-[370px] h-[370px]"></div>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-dotted rounded-full border-gray-200 w-[375px] h-[375px]"></div>
         </>
       )}
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import { FC } from 'react';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { Product } from '@prisma/client';
@@ -14,13 +14,13 @@ interface ProductModalProps {
   className?: string;
 }
 
-export const ProductModal: React.FC<ProductModalProps> = ({ product, className }) => {
+export const ProductModal: FC<ProductModalProps> = ({ product, className }) => {
   const router: AppRouterInstance = useRouter();
   const isPizzaForm: boolean = Boolean(product.variants[0].pizzaType);
 
   return (
     <Dialog open={Boolean(product)} onOpenChange={router.back}>
-      <DialogContent className={cn('p-0 w-[1060px] max-w-[1060px] bg-white', className)}>
+      <DialogContent className={cn('p-0 w-[1100px] max-w-[1100px] bg-white', className)}>
         <DialogTitle title={product.name} className="hidden" />
         <DialogDescription title={product.name} className="hidden" />
         {isPizzaForm ? (

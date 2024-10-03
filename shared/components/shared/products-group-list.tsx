@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { Product } from '@prisma/client';
 import { useCategoryStore } from '@/shared/store/category';
 import useIntersection from '@/shared/hooks/use-intersection';
@@ -16,7 +16,7 @@ interface ProductsGroupListProps {
   categoryId: number;
 }
 
-export const ProductsGroupList: React.FC<ProductsGroupListProps> = ({
+export const ProductsGroupList: FC<ProductsGroupListProps> = ({
   title,
   products,
   categoryId,

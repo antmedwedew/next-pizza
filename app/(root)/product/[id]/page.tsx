@@ -20,7 +20,7 @@ export default async function ProductPage({ params: { id } }: { params: { id: st
   return (
     <Container className="flex flex-col my-10">
       <div className="flex flex-1">
-        <ProductImage url={product.imageUrl} alt={product.name} size={40} />
+        <ProductImage url={product.imageUrl} alt={product.name} size={30} />
 
         <div className="ml-12">
           <Title text={product.name} size="md" className="font-extrabold mb-2" />

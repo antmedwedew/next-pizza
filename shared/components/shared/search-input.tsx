@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { Search } from 'lucide-react';
 import Link from 'next/link';
 import { Product } from '@prisma/client';
@@ -13,7 +13,7 @@ interface SearchInputProps {
   className?: string;
 }
 
-export const SearchInput: React.FC<SearchInputProps> = ({ className }) => {
+export const SearchInput: FC<SearchInputProps> = ({ className }) => {
   const [focused, setFocused] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [products, setProducts] = useState<Product[]>([]);

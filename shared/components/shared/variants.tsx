@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import { FC } from 'react';
 import { cn } from '@/shared/lib/utils';
 
-interface Variant {
+export interface Variant {
   name: string;
   value: string;
   disabled?: boolean;
@@ -16,7 +16,7 @@ interface VariantsProps {
   selectedValue?: Variant['value'];
 }
 
-export const Variants: React.FC<VariantsProps> = ({ className, variants, onClick, selectedValue, ...props }) => {
+export const Variants: FC<VariantsProps> = ({ className, variants, onClick, selectedValue, ...props }) => {
   return (
     <div className={cn('flex justify-between bg-[#ECECEC] rounded-3xl p-1 select-none', className)} {...props}>
       {variants.map((variant: Variant) => (

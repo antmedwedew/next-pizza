@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { cn } from '@/shared/lib/utils';
 import { ProductImage } from '@/shared/components/shared/product-image';
 import { Title } from '@/shared/components/shared/title';
@@ -11,7 +11,7 @@ interface ChooseProductFormProps {
   onClickAdd?: VoidFunction;
 }
 
-export const ChooseProductForm: React.FC<ChooseProductFormProps> = ({
+export const ChooseProductForm: FC<ChooseProductFormProps> = ({
   className,
   imageUrl,
   name,
@@ -21,7 +21,7 @@ export const ChooseProductForm: React.FC<ChooseProductFormProps> = ({
 }) => {
   return (
     <div className={cn('flex flex-1', className)}>
-      <ProductImage url={imageUrl} alt={name} size={30} className="p-14" isBcg={false} isDashed={false} />
+      <ProductImage url={imageUrl} alt={name} size={30} className="flex-1 h-full" isBcg={false} isDashed={false} />
 
       <div className="bg-[#F4F1EE] flex-1 p-10 rounded-r-2xl">
         <Title text={name} size="md" className="font-extrabold mb-1" />

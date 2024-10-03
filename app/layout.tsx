@@ -1,6 +1,6 @@
 import { Nunito } from 'next/font/google';
 import './globals.css';
-import React from 'react';
+import { ReactNode } from 'react';
 
 const nunito = Nunito({
   subsets: ['cyrillic'],
@@ -11,7 +11,7 @@ const nunito = Nunito({
 export default function RootRootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="ru">

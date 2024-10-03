@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Ingredient } from '@prisma/client';
 import qs from 'qs';
 import { ReadonlyURLSearchParams, useRouter, useSearchParams } from 'next/navigation';
@@ -23,7 +23,7 @@ interface PriceType {
   priceTo?: number;
 }
 
-export const Filters: React.FC<FiltersProps> = ({ className }) => {
+export const Filters: FC<FiltersProps> = ({ className }) => {
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
   const router: AppRouterInstance = useRouter();
   const maxPrice: number = 5000;

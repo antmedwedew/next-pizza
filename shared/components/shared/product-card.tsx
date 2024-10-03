@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
@@ -12,7 +12,7 @@ interface ProductCardProps {
   className?: string;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, imageUrl, className }) => {
+export const ProductCard: FC<ProductCardProps> = ({ id, name, price, imageUrl, className }) => {
   return (
     <Link href={`product/${id}`} className={className}>
       <div className="flex justify-center p-6 bg-secondary rounded-lg h-[260px]">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { Skeleton } from '@/shared/components/ui/skeleton';
 import { Input } from '@/shared/components/ui/input';
 import { FilterCheckbox } from '@/shared/components/shared/filter-checkbox';
@@ -24,7 +24,7 @@ interface CheckboxFiltersGroupProps {
   name: string;
 }
 
-export const CheckboxFiltersGroup: React.FC<CheckboxFiltersGroupProps> = ({
+export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
   className,
   items,
   defaultValue,
