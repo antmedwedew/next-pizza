@@ -2,8 +2,8 @@ import { FC } from 'react';
 import Image from 'next/image';
 import { ArrowRight, ShoppingCart, User } from 'lucide-react';
 import Link from 'next/link';
-import { Container } from '@/shared/components/shared/container';
-import { SearchInput } from '@/shared/components/shared/search-input';
+import { Container } from '@/shared/components/container';
+import { SearchInput } from '@/shared/components/search-input';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
 

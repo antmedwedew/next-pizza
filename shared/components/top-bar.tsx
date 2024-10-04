@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { cn } from '@/shared/lib/utils';
 import { Category } from '@prisma/client';
-import { Container } from '@/shared/components/shared/container';
-import { Categories } from '@/shared/components/shared/categories';
-import { SortPopup } from '@/shared/components/shared/sort-popup';
+import { Categories } from '@/shared/components/categories';
+import { SortPopup } from '@/shared/components/sort-popup';
+import { Container } from '@/shared/components/container';
 
 interface TopBarProps {
   className?: string;

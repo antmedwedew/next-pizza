@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
-import { Title } from '@/shared/components/shared/title';
+import { Title } from '@/shared/components/title';
 
 interface ProductCardProps {
   id: number;

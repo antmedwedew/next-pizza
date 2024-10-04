@@ -1,10 +1,10 @@
 import { prisma } from '@/prisma/prisma-client';
 import { notFound } from 'next/navigation';
 import { Product } from '@prisma/client';
-import { Container } from '@/shared/components/shared/container';
-import { ProductImage } from '@/shared/components/shared/product-image';
-import { Title } from '@/shared/components/shared/title';
-import { Variants } from '@/shared/components/shared/variants';
+import { Container } from '@/shared/components/container';
+import { ProductImage } from '@/shared/components/product-image';
+import { Title } from '@/shared/components/title';
+import { Variants } from '@/shared/components/variants';
 
 export default async function ProductPage({ params: { id } }: { params: { id: string } }) {
   const product: Product | any = await prisma.product.findFirst({

@@ -7,10 +7,10 @@ import { ReadonlyURLSearchParams, useRouter, useSearchParams } from 'next/naviga
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import useSet from '@/shared/hooks/use-set';
 import { Api } from '@/shared/services/api-client';
-import { Title } from '@/shared/components/shared/title';
-import { CheckboxFiltersGroup } from '@/shared/components/shared/checkbox-filters-group';
+import { Title } from '@/shared/components/title';
+import { CheckboxFiltersGroup } from '@/shared/components/checkbox-filters-group';
 import { Input } from '@/shared/components/ui/input';
-import { RangeSlider } from '@/shared/components/shared/range-slider';
+import { RangeSlider } from '@/shared/components/range-slider';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
 

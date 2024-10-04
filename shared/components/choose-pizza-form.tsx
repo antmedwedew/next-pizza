@@ -1,15 +1,16 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
-import useSet from '@/shared/hooks/use-set';
+import { FC } from 'react';
 import { cn } from '@/shared/lib/utils';
-import { ProductImage } from '@/shared/components/shared/product-image';
-import { Title } from '@/shared/components/shared/title';
+import { ProductImage } from '@/shared/components/product-image';
+import { Title } from '@/shared/components/title';
 import { Button } from '@/shared/components/ui/button';
-import { Variant, Variants } from '@/shared/components/shared/variants';
-import { mapPizzaType, PizzaSize, pizzaSizes, PizzaType, pizzaTypes } from '@/shared/constants/pizza';
+import { Variants } from '@/shared/components/variants';
+import { mapPizzaType, PizzaSize, PizzaType, pizzaTypes } from '@/shared/constants/pizza';
 import { Ingredient, ProductVariant } from '@prisma/client';
-import { IngredientItem } from '@/shared/components/shared/ingredient-item';
+import { IngredientItem } from '@/shared/components/ingredient-item';
+import { calcTotalPizzaPrice } from '@/shared/lib/calc-total-pizza-price';
+import { usePizzaOptions } from '@/shared/my-hooks/use-pizza-options';
 
 interface ChoosePizzaFormProps {
   className?: string;
@@ -28,36 +29,11 @@ export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
   ingredients,
   onClickAddCart,
 }) => {
-  const [size, setSize] = useState<PizzaSize>(20);
-  const [type, setType] = useState<PizzaType>(1);
-  const [selectedIngredients, { toggle: toggleIngredient }] = useSet(new Set<number>([]));
+  const { size, type, setSize, setType, selectedIngredients, toggleIngredient, availablePizzaSizes } =
+    usePizzaOptions(variants);
 
-  const pizzaPrice: number =
-    (variants.find((item: ProductVariant) => item.pizzaType === type && item.size === size) as ProductVariant)?.price ||
-    0;
-  const ingredientsPrice: number = ingredients
-    .filter((item: Ingredient) => selectedIngredients.has(item.id))
-    .reduce((acc: number, ingredient: Ingredient) => acc + ingredient.price, 0);
-  const totalPrice: number = pizzaPrice + ingredientsPrice;
-
-  // Фильтруем для скрытия ненужных параметров
-  const availablePizzas: ProductVariant[] = variants.filter((item: ProductVariant) => item.pizzaType === type);
-  const availablePizzaSizes: Variant[] | undefined = pizzaSizes.map((item: Variant) => ({
-    name: item.name,
-    value: item.value,
-    disabled: !availablePizzas.some((pizza: ProductVariant) => Number(pizza.size) === Number(item.value)),
-  }));
-
-  useEffect(() => {
-    const isAvailableSize: Variant | undefined = availablePizzaSizes?.find(
-      (item: Variant) => Number(item.value) === size && !item.disabled,
-    );
-    const availableSize: Variant | undefined = availablePizzaSizes?.find((item: Variant) => !item.disabled);
-
-    if (!isAvailableSize && availableSize) {
-      setSize(Number(availableSize.value) as PizzaSize);
-    }
-  }, [type]);
+  // Общая стоимость пиццы
+  const totalPrice: number = calcTotalPizzaPrice(variants, ingredients, size, type, selectedIngredients);
 
   const handleAddCart = () => {
     onClickAddCart?.();
@@ -80,7 +56,7 @@ export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
         </p>
 
         <Variants
-          variants={availablePizzaSizes}
+          variants={availablePizzaSizes || []}
           className="mt-4"
           selectedValue={String(size)}
           onClick={(value: string) => setSize(Number(value) as PizzaSize)}

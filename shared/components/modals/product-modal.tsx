@@ -3,14 +3,14 @@
 import { FC } from 'react';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { Product } from '@prisma/client';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/shared/components/ui/dialog';
-import { ChoosePizzaForm } from '@/shared/components/shared/choose-pizza-form';
-import { ChooseProductForm } from '@/shared/components/shared/choose-product-form';
+import { ChoosePizzaForm } from '@/shared/components/choose-pizza-form';
+import { ChooseProductForm } from '@/shared/components/choose-product-form';
 import { cn } from '@/shared/lib/utils';
+import { ProductWithRelations } from '@/@types/prisma';
 
 interface ProductModalProps {
-  product: Product;
+  product: ProductWithRelations;
   className?: string;
 }
 

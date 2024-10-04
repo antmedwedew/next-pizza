@@ -1,8 +1,9 @@
 import { cn } from '@/shared/lib/utils';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 interface ContainerProps {
   className?: string;
+  children: ReactNode;
 }
 
 export const Container: FC<ContainerProps> = ({ className, children }) => {

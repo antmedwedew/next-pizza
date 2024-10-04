@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { cn } from '@/shared/lib/utils';
-import { ProductImage } from '@/shared/components/shared/product-image';
-import { Title } from '@/shared/components/shared/title';
+import { ProductImage } from '@/shared/components/product-image';
+import { Title } from '@/shared/components/title';
 import { Button } from '@/shared/components/ui/button';
 
 interface ChooseProductFormProps {
@@ -11,14 +11,7 @@ interface ChooseProductFormProps {
   onClickAdd?: VoidFunction;
 }
 
-export const ChooseProductForm: FC<ChooseProductFormProps> = ({
-  className,
-  imageUrl,
-  name,
-  variants,
-  ingredients,
-  onClickAdd,
-}) => {
+export const ChooseProductForm: FC<ChooseProductFormProps> = ({ className, imageUrl, name, onClickAdd }) => {
   return (
     <div className={cn('flex flex-1', className)}>
       <ProductImage url={imageUrl} alt={name} size={30} className="flex-1 h-full" isBcg={false} isDashed={false} />

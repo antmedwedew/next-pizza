@@ -1,16 +1,16 @@
 'use client';
 
 import { FC, useEffect, useRef } from 'react';
-import { Product } from '@prisma/client';
 import { useCategoryStore } from '@/shared/store/category';
 import useIntersection from '@/shared/hooks/use-intersection';
 import { cn } from '@/shared/lib/utils';
-import { Title } from '@/shared/components/shared/title';
-import { ProductCard } from '@/shared/components/shared/product-card';
+import { Title } from '@/shared/components/title';
+import { ProductCard } from '@/shared/components/product-card';
+import { ProductWithRelations } from '@/@types/prisma';
 
 interface ProductsGroupListProps {
   title: string;
-  products: Product[];
+  products: ProductWithRelations[];
   className?: string;
   listClassName?: string;
   categoryId: number;
@@ -40,7 +40,7 @@ export const ProductsGroupList: FC<ProductsGroupListProps> = ({
       <Title text={title} size="lg" className="font-extrabold mb-8 leading-none" />
 
       <div className={cn('grid grid-cols-3 gap-[50px]', listClassName)}>
-        {products.map((product: Product) => (
+        {products.map((product: ProductWithRelations) => (
           <ProductCard
             key={product.id}
             id={product.id}

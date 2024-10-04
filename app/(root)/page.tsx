@@ -1,9 +1,9 @@
 import { Category, Prisma } from '@prisma/client';
 import { prisma } from '@/prisma/prisma-client';
-import { TopBar } from '@/shared/components/shared/top-bar';
-import { Container } from '@/shared/components/shared/container';
-import { Filters } from '@/shared/components/shared/filters';
-import { ProductsGroupList } from '@/shared/components/shared/products-group-list';
+import { TopBar } from '@/shared/components/top-bar';
+import { Container } from '@/shared/components/container';
+import { Filters } from '@/shared/components/filters';
+import { ProductsGroupList } from '@/shared/components/products-group-list';
 
 export default async function Home() {
   const categories = await prisma.category.findMany({

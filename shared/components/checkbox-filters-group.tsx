@@ -3,7 +3,7 @@
 import { ChangeEvent, FC, useState } from 'react';
 import { Skeleton } from '@/shared/components/ui/skeleton';
 import { Input } from '@/shared/components/ui/input';
-import { FilterCheckbox } from '@/shared/components/shared/filter-checkbox';
+import { FilterCheckbox } from '@/shared/components/filter-checkbox';
 import { cn } from '@/shared/lib/utils';
 
 interface itemList {
@@ -28,7 +28,7 @@ export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
   className,
   items,
   defaultValue,
-  limit,
+  limit = 0,
   searchInputPlaceholder = 'Поиск...',
   onClickCheckbox,
   title,
