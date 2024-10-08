@@ -28,7 +28,7 @@ export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
   className,
   items,
   defaultValue,
-  limit = 0,
+  limit,
   searchInputPlaceholder = 'Поиск...',
   onClickCheckbox,
   title,
@@ -88,7 +88,7 @@ export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
         ))}
       </div>
 
-      {items.length > limit && (
+      {limit && items.length > limit && (
         <div className={isShowAll ? 'border-t border-t-neutral-100 mt-3' : 'mt-4'}>
           <button onClick={() => setIsShowAll(!isShowAll)} className={cn('text-primary', isShowAll && 'mt-3')}>
             {isShowAll ? 'Скрыть' : '+ Показать все'}
