@@ -1,6 +1,7 @@
 import { Nunito } from 'next/font/google';
 import './globals.css';
 import { ReactNode } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 const nunito = Nunito({
   subsets: ['cyrillic'],
@@ -20,6 +21,7 @@ export default function RootRootLayout({
       </head>
       <body suppressHydrationWarning={true} className={nunito.variable}>
         {children}
+        <Toaster />
       </body>
     </html>
   );

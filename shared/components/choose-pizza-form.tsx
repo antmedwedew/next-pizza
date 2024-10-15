@@ -1,7 +1,7 @@
 'use client';
 
 import { FC } from 'react';
-import { cn } from '@/shared/lib/utils';
+import { cn, priceRu } from '@/shared/lib/utils';
 import { ProductImage } from '@/shared/components/product-image';
 import { Title } from '@/shared/components/title';
 import { Button } from '@/shared/components/ui/button';
@@ -18,7 +18,8 @@ interface ChoosePizzaFormProps {
   name: string;
   ingredients: Ingredient[];
   variants: ProductVariant[];
-  onClickAddCart?: VoidFunction;
+  onClickAdd: (itemId: number | undefined, ingredients: number[]) => void;
+  loading: boolean;
 }
 
 export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
@@ -27,22 +28,14 @@ export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
   name,
   variants,
   ingredients,
-  onClickAddCart,
+  onClickAdd,
+  loading,
 }) => {
-  const { size, type, setSize, setType, selectedIngredients, toggleIngredient, availablePizzaSizes } =
+  const { size, type, setSize, setType, selectedIngredients, toggleIngredient, availablePizzaSizes, currentVariantId } =
     usePizzaOptions(variants);
 
   // Общая стоимость пиццы
   const totalPrice: number = calcTotalPizzaPrice(variants, ingredients, size, type, selectedIngredients);
-
-  const handleAddCart = () => {
-    onClickAddCart?.();
-    console.log({
-      size,
-      type,
-      selectedIngredients,
-    });
-  };
 
   return (
     <div className={cn('flex flex-1', className)}>
@@ -52,7 +45,7 @@ export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
         <Title text={name} size="md" className="font-extrabold mb-1" />
 
         <p className="text-gray-400">
-          {size} см, {mapPizzaType[type]} тесто
+          {mapPizzaType[type]} тесто, {size} см
         </p>
 
         <Variants
@@ -85,8 +78,12 @@ export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
           </div>
         </div>
 
-        <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-6" onClick={handleAddCart}>
-          Добавить в корзину за {totalPrice}
+        <Button
+          loading={loading}
+          className="h-[55px] px-10 text-base rounded-[18px] w-full mt-6"
+          onClick={() => currentVariantId && onClickAdd(currentVariantId, Array.from(selectedIngredients))}
+        >
+          Добавить в корзину за {priceRu(totalPrice)}
         </Button>
       </div>
     </div>

@@ -8,6 +8,9 @@ import { ChoosePizzaForm } from '@/shared/components/choose-pizza-form';
 import { ChooseProductForm } from '@/shared/components/choose-product-form';
 import { cn } from '@/shared/lib/utils';
 import { ProductWithRelations } from '@/@types/prisma';
+import { useCartStore } from '@/shared/store/cart';
+import { ProductVariant } from '@prisma/client';
+import toast from 'react-hot-toast';
 
 interface ProductModalProps {
   product: ProductWithRelations;
@@ -16,7 +19,26 @@ interface ProductModalProps {
 
 export const ProductModal: FC<ProductModalProps> = ({ product, className }) => {
   const router: AppRouterInstance = useRouter();
-  const isPizzaForm: boolean = Boolean(product.variants[0].pizzaType);
+  const firstItem: ProductVariant = product.variants[0];
+  const isPizzaForm: boolean = Boolean(firstItem.pizzaType);
+  const [addCartItem, loading] = useCartStore((state) => [state.addCartItem, state.loading]);
+
+  const onSubmit = async (productVariantId?: number, ingredients?: number[]) => {
+    try {
+      const itemId: number = productVariantId ?? firstItem.id;
+
+      await addCartItem({
+        productVariantId: itemId,
+        ingredients,
+      });
+
+      toast.success('Товар добавлена в корзину');
+      router.back();
+    } catch (err) {
+      toast.error('Не удалось добавить товар в корзину');
+      console.error(err);
+    }
+  };
 
   return (
     <Dialog open={Boolean(product)} onOpenChange={router.back}>
@@ -29,9 +51,17 @@ export const ProductModal: FC<ProductModalProps> = ({ product, className }) => {
             name={product.name}
             ingredients={product.ingredients}
             variants={product.variants}
+            onClickAdd={onSubmit}
+            loading={loading}
           />
         ) : (
-          <ChooseProductForm imageUrl={product.imageUrl} name={product.name} />
+          <ChooseProductForm
+            imageUrl={product.imageUrl}
+            price={firstItem.price}
+            name={product.name}
+            onClickAdd={onSubmit}
+            loading={loading}
+          />
         )}
       </DialogContent>
     </Dialog>

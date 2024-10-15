@@ -5,7 +5,7 @@ export const randomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-export const generateProductVariant = (productId: number, pizzaType?: 1 | 2 | 3, size?: 20 | 30 | 40) => {
+export const generateProductVariant = (productId: number, pizzaType?: 1 | 2, size?: 20 | 30 | 40) => {
   return {
     productId,
     size,
