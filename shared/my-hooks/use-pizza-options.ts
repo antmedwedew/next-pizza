@@ -13,6 +13,7 @@ interface ReturnPizzaOptionType {
   selectedIngredients: Set<number>;
   toggleIngredient: (ingredientId: number) => void;
   availablePizzaSizes: Variant[] | undefined;
+  currentVariantId: number | undefined;
 }
 
 export const usePizzaOptions = (variants: ProductVariant[]): ReturnPizzaOptionType => {
@@ -22,6 +23,11 @@ export const usePizzaOptions = (variants: ProductVariant[]): ReturnPizzaOptionTy
 
   // Фильтруем доступные размеры и типы для скрытия ненужных параметров
   const availablePizzaSizes: Variant[] | undefined = getAvailablePizzaSizes(variants, type);
+
+  // Поиск конкретного id вариации
+  const currentVariantId: number | undefined = variants.find(
+    (variant: ProductVariant) => variant.pizzaType === type && variant.size === size,
+  )?.id;
 
   useEffect(() => {
     const isAvailableSize: Variant | undefined = availablePizzaSizes?.find(
@@ -34,5 +40,5 @@ export const usePizzaOptions = (variants: ProductVariant[]): ReturnPizzaOptionTy
     }
   }, [type]);
 
-  return { size, type, setSize, setType, selectedIngredients, toggleIngredient, availablePizzaSizes };
+  return { size, type, setSize, setType, selectedIngredients, toggleIngredient, availablePizzaSizes, currentVariantId };
 };

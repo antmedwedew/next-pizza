@@ -1,9 +1,10 @@
-import { Category, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { prisma } from '@/prisma/prisma-client';
 import { TopBar } from '@/shared/components/top-bar';
 import { Container } from '@/shared/components/container';
 import { Filters } from '@/shared/components/filters';
 import { ProductsGroupList } from '@/shared/components/products-group-list';
+import { Suspense } from 'react';
 
 export default async function Home() {
   const categories = await prisma.category.findMany({
@@ -19,18 +20,20 @@ export default async function Home() {
 
   return (
     <>
-      <TopBar categories={categories.filter((category: Category) => category.products.length > 0)} />
+      <TopBar categories={categories.filter((category: any) => category.products.length > 0)} />
       <Container className="mt-10">
         <div className="flex gap-[80px]">
           {/*Фильтр*/}
           <div className="w-[250px]">
-            <Filters />
+            <Suspense>
+              <Filters />
+            </Suspense>
           </div>
 
           {/*Товары*/}
           <div className="flex-1">
             {categories.map(
-              (category: Category) =>
+              (category: any) =>
                 category.products.length > 0 && (
                   <ProductsGroupList
                     title={category.name}

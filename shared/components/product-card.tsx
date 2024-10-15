@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Title } from '@/shared/components/title';
+import { priceRu } from '@/shared/lib/utils';
 
 interface ProductCardProps {
   id: number;
@@ -26,7 +27,7 @@ export const ProductCard: FC<ProductCardProps> = ({ id, name, price, imageUrl, c
 
       <div className="flex justify-between items-center mt-4">
         <span className="text-[20px]">
-          от <b>{price} ₽</b>
+          от <b>{priceRu(price)}</b>
         </span>
 
         <Button variant="secondary">

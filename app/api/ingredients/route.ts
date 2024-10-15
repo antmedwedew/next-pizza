@@ -2,7 +2,12 @@ import { prisma } from '@/prisma/prisma-client';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const ingredients = await prisma.ingredient.findMany();
+  try {
+    const ingredients = await prisma.ingredient.findMany();
 
-  return NextResponse.json(ingredients);
+    return NextResponse.json(ingredients);
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json({ message: 'Не удалось получить ингредиенты' }, { status: 500 });
+  }
 }

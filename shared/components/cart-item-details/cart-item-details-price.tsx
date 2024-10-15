@@ -1,4 +1,4 @@
-import { cn } from '@/shared/lib/utils';
+import { cn, priceRu } from '@/shared/lib/utils';
 import { FC } from 'react';
 
 interface CartItemDetailsPriceProps {
@@ -7,5 +7,5 @@ interface CartItemDetailsPriceProps {
 }
 
 export const CartItemDetailsPrice: FC<CartItemDetailsPriceProps> = ({ value, className }) => {
-  return <h2 className={cn('font-bold', className)}>{value} ₽</h2>;
+  return <h2 className={cn('font-bold', className)}>{priceRu(value)}</h2>;
 };

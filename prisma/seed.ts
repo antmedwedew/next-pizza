@@ -83,15 +83,12 @@ async function up() {
   });
 
   await prisma.cart.createMany({
-    data: [
-      { userId: 1, totalAmount: 0, token: '111111' },
-      { userId: 2, totalAmount: 0, token: '222222' },
-    ],
+    data: [{ userId: 1, totalAmount: 1000, token: '111111' }],
   });
 
   await prisma.cartItem.create({
     data: {
-      productVariantId: 1,
+      productVariantId: 5,
       cartId: 1,
       quantity: 1,
       ingredients: {
