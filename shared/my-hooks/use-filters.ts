@@ -1,6 +1,6 @@
 import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation';
 import useSet from '@/shared/hooks/use-set';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export interface PriceType {
   priceFrom?: number;
@@ -46,15 +46,18 @@ export const useFilters = (): ReturnFilters => {
     }));
   };
 
-  return {
-    maxPrice,
-    selectedIngredients,
-    toggleIngredients,
-    selectedSizes,
-    toggleSizes,
-    selectedPizzaTypes,
-    togglePizzaTypes,
-    price,
-    updatePrice,
-  };
+  return useMemo(
+    () => ({
+      maxPrice,
+      selectedIngredients,
+      toggleIngredients,
+      selectedSizes,
+      toggleSizes,
+      selectedPizzaTypes,
+      togglePizzaTypes,
+      price,
+      updatePrice,
+    }),
+    [selectedIngredients, selectedSizes, selectedPizzaTypes, price],
+  );
 };

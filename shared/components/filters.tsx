@@ -6,7 +6,6 @@ import { Title } from '@/shared/components/title';
 import { CheckboxFiltersGroup } from '@/shared/components/checkbox-filters-group';
 import { Input } from '@/shared/components/ui/input';
 import { RangeSlider } from '@/shared/components/range-slider';
-import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
 import { useFilterIngredients } from '@/shared/my-hooks/use-filter-ingredients';
 import { useFilters } from '@/shared/my-hooks/use-filters';
@@ -99,10 +98,6 @@ export const Filters: FC<FiltersProps> = ({ className }) => {
         selectedValues={filters.selectedIngredients}
         name="ingredients"
       />
-
-      <Button size="lg" className="w-full mt-10">
-        Применить
-      </Button>
     </div>
   );
 };

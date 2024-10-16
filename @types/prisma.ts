@@ -1,4 +1,4 @@
-import { Cart, CartItem, Ingredient, Product, ProductVariant } from '@prisma/client';
+import { Cart, CartItem, Category, Ingredient, Product, ProductVariant } from '@prisma/client';
 
 export interface ProductWithRelations extends Product {
   variants: ProductVariant[];
@@ -14,4 +14,8 @@ export interface CartItemWithRelations extends CartItem {
 
 export interface CartWithRelations extends Cart {
   items: CartItemWithRelations[];
+}
+
+export interface CategoryWithRelations extends Category {
+  products: ProductWithRelations[];
 }

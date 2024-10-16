@@ -6,7 +6,7 @@ import { Input } from '@/shared/components/ui/input';
 import { FilterCheckbox } from '@/shared/components/filter-checkbox';
 import { cn } from '@/shared/lib/utils';
 
-interface itemList {
+interface ItemListType {
   text: string;
   value: string;
 }
@@ -14,7 +14,7 @@ interface itemList {
 interface CheckboxFiltersGroupProps {
   title: string;
   className?: string;
-  items: itemList[];
+  items: ItemListType[];
   searchInputPlaceholder?: string;
   onClickCheckbox: (value: string) => void;
   defaultValue?: string[];
@@ -39,8 +39,8 @@ export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
   const [isShowAll, setIsShowAll] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>('');
 
-  const list: itemList[] = isShowAll
-    ? items.filter((item: itemList) => item.text.toLowerCase().includes(searchValue.toLowerCase()))
+  const list: ItemListType[] = isShowAll
+    ? items.filter((item: ItemListType) => item.text.toLowerCase().includes(searchValue.toLowerCase()))
     : items.slice(0, limit);
 
   const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +76,7 @@ export const CheckboxFiltersGroup: FC<CheckboxFiltersGroupProps> = ({
       )}
 
       <div className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
-        {list.map((item: itemList, index: number) => (
+        {list.map((item: ItemListType, index: number) => (
           <FilterCheckbox
             key={index}
             text={item.text}
