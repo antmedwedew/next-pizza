@@ -19,7 +19,7 @@ interface ChoosePizzaFormProps {
   ingredients: Ingredient[];
   variants: ProductVariant[];
   onClickAdd: (itemId: number | undefined, ingredients: number[]) => void;
-  loading: boolean;
+  isLoading: boolean;
 }
 
 export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
@@ -29,7 +29,7 @@ export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
   variants,
   ingredients,
   onClickAdd,
-  loading,
+  isLoading,
 }) => {
   const { size, type, setSize, setType, selectedIngredients, toggleIngredient, availablePizzaSizes, currentVariantId } =
     usePizzaOptions(variants);
@@ -79,7 +79,7 @@ export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
         </div>
 
         <Button
-          loading={loading}
+          loading={isLoading}
           className="h-[55px] px-10 text-base rounded-[18px] w-full mt-6"
           onClick={() => currentVariantId && onClickAdd(currentVariantId, Array.from(selectedIngredients))}
         >

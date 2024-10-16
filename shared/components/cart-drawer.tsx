@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/shared/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { CartDrawerItem } from '@/shared/components/cart-drawer-item';
-import { getCartItemDetails } from '@/shared/lib/get-cart-item-details';
+import { getProductItemDetails } from '@/shared/lib/get-product-item-details';
 import { ICartItem, useCartStore } from '@/shared/store/cart';
 import { PizzaSize, PizzaType } from '@/shared/constants/pizza';
 import { decOfNumber, priceRu } from '@/shared/lib/utils';
@@ -57,7 +57,7 @@ export const CartDrawer: FC<PropsWithChildren<CartDrawerProps>> = ({ children })
               imageUrl={item.imageUrl}
               details={
                 item.pizzaType && item.pizzaSize
-                  ? getCartItemDetails(item.ingredients, item.pizzaType as PizzaType, item.pizzaSize as PizzaSize)
+                  ? getProductItemDetails(item.ingredients, item.pizzaType as PizzaType, item.pizzaSize as PizzaSize)
                   : ''
               }
               name={item.name}

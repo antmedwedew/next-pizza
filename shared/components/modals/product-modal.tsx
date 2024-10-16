@@ -21,7 +21,7 @@ export const ProductModal: FC<ProductModalProps> = ({ product, className }) => {
   const router: AppRouterInstance = useRouter();
   const firstItem: ProductVariant = product.variants[0];
   const isPizzaForm: boolean = Boolean(firstItem.pizzaType);
-  const [addCartItem, loading] = useCartStore((state) => [state.addCartItem, state.loading]);
+  const [addCartItem, isLoading] = useCartStore((state) => [state.addCartItem, state.isLoading]);
 
   const onSubmit = async (productVariantId?: number, ingredients?: number[]) => {
     try {
@@ -52,7 +52,7 @@ export const ProductModal: FC<ProductModalProps> = ({ product, className }) => {
             ingredients={product.ingredients}
             variants={product.variants}
             onClickAdd={onSubmit}
-            loading={loading}
+            isLoading={isLoading}
           />
         ) : (
           <ChooseProductForm
@@ -60,7 +60,7 @@ export const ProductModal: FC<ProductModalProps> = ({ product, className }) => {
             price={firstItem.price}
             name={product.name}
             onClickAdd={onSubmit}
-            loading={loading}
+            isLoading={isLoading}
           />
         )}
       </DialogContent>

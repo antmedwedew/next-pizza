@@ -10,7 +10,7 @@ interface ChooseProductFormProps {
   name: string;
   price: number;
   onClickAdd: VoidFunction;
-  loading: boolean;
+  isLoading: boolean;
 }
 
 export const ChooseProductForm: FC<ChooseProductFormProps> = ({
@@ -19,7 +19,7 @@ export const ChooseProductForm: FC<ChooseProductFormProps> = ({
   name,
   price,
   onClickAdd,
-  loading,
+  isLoading,
 }) => {
   return (
     <div className={cn('flex flex-1', className)}>
@@ -29,7 +29,7 @@ export const ChooseProductForm: FC<ChooseProductFormProps> = ({
         <Title text={name} size="md" className="font-extrabold mb-1" />
 
         <Button
-          loading={loading}
+          loading={isLoading}
           className="h-[55px] px-10 text-base rounded-[18px] w-full mt-6"
           onClick={() => onClickAdd()}
         >

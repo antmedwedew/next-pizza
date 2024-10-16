@@ -1,76 +1,29 @@
 'use client';
 
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC } from 'react';
 import { Ingredient } from '@prisma/client';
-import qs from 'qs';
-import { ReadonlyURLSearchParams, useRouter, useSearchParams } from 'next/navigation';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import useSet from '@/shared/hooks/use-set';
-import { Api } from '@/shared/services/api-client';
 import { Title } from '@/shared/components/title';
 import { CheckboxFiltersGroup } from '@/shared/components/checkbox-filters-group';
 import { Input } from '@/shared/components/ui/input';
 import { RangeSlider } from '@/shared/components/range-slider';
-import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
+import { useFilterIngredients } from '@/shared/my-hooks/use-filter-ingredients';
+import { useFilters } from '@/shared/my-hooks/use-filters';
+import { useQueryFilters } from '@/shared/my-hooks/use-query-filters';
 
 interface FiltersProps {
   className?: string;
 }
 
-interface PriceType {
-  priceFrom?: number;
-  priceTo?: number;
-}
-
 export const Filters: FC<FiltersProps> = ({ className }) => {
-  const searchParams: ReadonlyURLSearchParams = useSearchParams();
-  const router: AppRouterInstance = useRouter();
-  const maxPrice: number = 5000;
+  const { ingredients, isLoadingIngredients } = useFilterIngredients();
+  const filters = useFilters();
+  const maxPrice: number = filters.maxPrice;
+  useQueryFilters(filters);
 
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [isLoadingIngredients, setIsLoadingIngredients] = useState<boolean>(true);
-  const [selectedIngredients, { toggle: toggleIngredients }] = useSet(
-    new Set<string>((searchParams.get('ingredients') as string)?.split(',') || []),
-  );
-  const [selectedSizes, { toggle: toggleSizes }] = useSet(
-    new Set<string>((searchParams.get('sizes') as string)?.split(',') || []),
-  );
-  const [selectedPizzaTypes, { toggle: togglePizzaTypes }] = useSet(
-    new Set<string>((searchParams.get('pizzaTypes') as string)?.split(',') || []),
-  );
-  const [price, setPrice] = useState<PriceType>({
-    priceFrom: Number(searchParams.get('priceFrom')) || undefined,
-    priceTo: Number(searchParams.get('priceTo')) || undefined,
-  });
-
-  useEffect(() => {
-    Api.ingredients.getAll().then((result: Ingredient[]) => {
-      setIngredients(result);
-      setIsLoadingIngredients(false);
-    });
-  }, []);
-
-  useEffect(() => {
-    const filters = {
-      ...price,
-      ingredients: Array.from(selectedIngredients),
-      sizes: Array.from(selectedSizes),
-      pizzaTypes: Array.from(selectedPizzaTypes),
-    };
-
-    const query: string = qs.stringify(filters, {
-      arrayFormat: 'comma',
-    });
-
-    router.push(`?${query}`, { scroll: false });
-  }, [price, selectedIngredients, selectedSizes, selectedPizzaTypes, router]);
-
-  const updatePrice = (name: keyof PriceType, value: number) => {
-    setPrice({
-      ...price,
-      [name]: value > maxPrice ? maxPrice : value,
-    });
+  const updatePrices = (values: number[]) => {
+    filters.updatePrice('priceFrom', values[0]);
+    filters.updatePrice('priceTo', values[1] === 0 ? maxPrice : values[1]);
   };
 
   return (
@@ -83,9 +36,9 @@ export const Filters: FC<FiltersProps> = ({ className }) => {
           { text: 'Тонкое', value: '1' },
           { text: 'Традиционное', value: '2' },
         ]}
-        onClickCheckbox={togglePizzaTypes}
+        onClickCheckbox={filters.togglePizzaTypes}
         name="type"
-        selectedValues={selectedPizzaTypes}
+        selectedValues={filters.selectedPizzaTypes}
       />
 
       <CheckboxFiltersGroup
@@ -95,10 +48,10 @@ export const Filters: FC<FiltersProps> = ({ className }) => {
           { text: '30 см', value: '30' },
           { text: '40 см', value: '40' },
         ]}
-        onClickCheckbox={toggleSizes}
+        onClickCheckbox={filters.toggleSizes}
         name="sizes"
         className="mt-5"
-        selectedValues={selectedSizes}
+        selectedValues={filters.selectedSizes}
       />
 
       <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
@@ -110,25 +63,25 @@ export const Filters: FC<FiltersProps> = ({ className }) => {
             placeholder="0"
             min={0}
             max={maxPrice}
-            value={price.priceFrom ? String(price.priceFrom) : ''}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => updatePrice('priceFrom', Number(e.target.value))}
+            value={filters.price.priceFrom ? String(filters.price.priceFrom) : ''}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => filters.updatePrice('priceFrom', Number(e.target.value))}
           />
           <Input
             type="number"
             placeholder="5000"
             min={0}
             max={maxPrice}
-            value={price.priceTo ? String(price.priceTo) : ''}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => updatePrice('priceTo', Number(e.target.value))}
+            value={filters.price.priceTo ? String(filters.price.priceTo) : ''}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => filters.updatePrice('priceTo', Number(e.target.value))}
           />
         </div>
 
         <RangeSlider
           min={0}
-          max={5000}
+          max={maxPrice}
           step={10}
-          value={[price.priceFrom || 0, price.priceTo || maxPrice]}
-          onValueChange={([priceFrom, priceTo]) => setPrice({ priceFrom, priceTo })}
+          value={[filters.price.priceFrom || 0, filters.price.priceTo || maxPrice]}
+          onValueChange={updatePrices}
         />
       </div>
 
@@ -141,14 +94,10 @@ export const Filters: FC<FiltersProps> = ({ className }) => {
           value: String(ingredient.id),
         }))}
         isLoading={isLoadingIngredients}
-        onClickCheckbox={toggleIngredients}
-        selectedValues={selectedIngredients}
+        onClickCheckbox={filters.toggleIngredients}
+        selectedValues={filters.selectedIngredients}
         name="ingredients"
       />
-
-      <Button size="lg" className="w-full mt-10">
-        Применить
-      </Button>
     </div>
   );
 };
