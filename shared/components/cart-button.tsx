@@ -12,11 +12,11 @@ interface CartButtonProps {
 }
 
 export const CartButton: FC<CartButtonProps> = ({ className }) => {
-  const [totalAmount, loading, items] = useCartStore((state) => [state.totalAmount, state.loading, state.items]);
+  const [totalAmount, isLoading, items] = useCartStore((state) => [state.totalAmount, state.isLoading, state.items]);
 
   return (
     <CartDrawer>
-      <Button loading={loading} className={cn('group relative', { 'w-[135px]': loading }, className)}>
+      <Button loading={isLoading} className={cn('group relative', { 'w-[135px]': isLoading }, className)}>
         <b>{priceRu(totalAmount)}</b>
         <span className="h-full w-[1px] bg-white/30 mx-3" />
         <div className="flex items-center gap-1 transition duration-300 group-hover:opacity-0">

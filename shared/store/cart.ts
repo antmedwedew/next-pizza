@@ -16,7 +16,7 @@ export interface ICartItem {
 }
 
 interface CartStateType {
-  loading: boolean;
+  isLoading: boolean;
   error: boolean;
   totalAmount: number;
   items: ICartItem[];
@@ -27,53 +27,53 @@ interface CartStateType {
 }
 
 export const useCartStore = create<CartStateType>()((set) => ({
-  loading: true,
+  isLoading: true,
   error: false,
   totalAmount: 0,
   items: [],
 
   getCartItems: async () => {
     try {
-      set({ loading: true, error: false });
+      set({ isLoading: true, error: false });
       const data = await Api.cart.getCart();
       set(getCartDetails(data));
     } catch (err) {
       set({ error: true });
     } finally {
-      set({ loading: false });
+      set({ isLoading: false });
     }
   },
   updateItemQuantity: async (id: number, quantity: number) => {
     try {
-      set({ loading: true, error: false });
+      set({ isLoading: true, error: false });
       const data = await Api.cart.updateItemQuantity(id, quantity);
       set(getCartDetails(data));
     } catch (err) {
       set({ error: true });
     } finally {
-      set({ loading: false });
+      set({ isLoading: false });
     }
   },
   removeCartItem: async (id: number) => {
     try {
-      set({ loading: true, error: false });
+      set({ isLoading: true, error: false });
       const data = await Api.cart.removeCartItem(id);
       set(getCartDetails(data));
     } catch (err) {
       set({ error: true });
     } finally {
-      set({ loading: false });
+      set({ isLoading: false });
     }
   },
   addCartItem: async (values: CreateCartItemValuesType) => {
     try {
-      set({ loading: true, error: false });
+      set({ isLoading: true, error: false });
       const data = await Api.cart.addCartItem(values);
       set(getCartDetails(data));
     } catch (err) {
       set({ error: true });
     } finally {
-      set({ loading: false });
+      set({ isLoading: false });
     }
   },
 }));

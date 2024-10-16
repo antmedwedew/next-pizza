@@ -40,5 +40,14 @@ export const usePizzaOptions = (variants: ProductVariant[]): ReturnPizzaOptionTy
     }
   }, [type]);
 
-  return { size, type, setSize, setType, selectedIngredients, toggleIngredient, availablePizzaSizes, currentVariantId };
+  return {
+    size,
+    type,
+    setSize,
+    setType,
+    selectedIngredients,
+    toggleIngredient,
+    availablePizzaSizes,
+    currentVariantId,
+  };
 };
