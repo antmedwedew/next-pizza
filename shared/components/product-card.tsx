@@ -35,7 +35,7 @@ export const ProductCard: FC<ProductCardProps> = ({ id, name, price, imageUrl, c
 
         <Button variant="secondary">
           <Plus size={20} className="mr-1" />
-          Добавить
+          {ingredients.length > 0 ? 'Собрать' : 'Добавить'}
         </Button>
       </div>
     </Link>

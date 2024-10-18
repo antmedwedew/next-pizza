@@ -19,3 +19,7 @@ export interface CartWithRelations extends Cart {
 export interface CategoryWithRelations extends Category {
   products: ProductWithRelations[];
 }
+
+export interface CartItemWithIngredientsRelations extends CartItem {
+  ingredients: Ingredient[];
+}

@@ -4,6 +4,8 @@ import crypto from 'crypto';
 import { findOrCreateCart } from '@/shared/api-lib/find-or-create-cart';
 import { updateCartTotalAmount } from '@/shared/api-lib/update-cart-total-amount';
 import { CreateCartItemValuesType } from '@/@types/types';
+import { Cart, Ingredient } from '@prisma/client';
+import { CartItemWithIngredientsRelations } from '@/@types/prisma';
 
 export async function GET(req: NextRequest) {
   try {
@@ -53,21 +55,38 @@ export async function POST(req: NextRequest) {
       token = crypto.randomUUID();
     }
 
-    const userCart = await findOrCreateCart(token);
-    const data = (await req.json()) as CreateCartItemValuesType;
-    const findCartItem = await prisma.cartItem.findFirst({
+    const userCart: Cart = await findOrCreateCart(token);
+    const data: CreateCartItemValuesType = await req.json();
+    let findCartItem: CartItemWithIngredientsRelations | undefined = undefined;
+
+    const findCartItems: CartItemWithIngredientsRelations[] = await prisma.cartItem.findMany({
       where: {
         cartId: userCart.id,
         productVariantId: data.productVariantId,
-        ingredients: {
-          every: {
-            id: { in: data.ingredients }, // TODO: поправить логику так как призма работает неверно!!!!!
-          },
-        },
+      },
+      include: {
+        ingredients: true,
       },
     });
 
-    console.log(findCartItem);
+    if (findCartItems.length > 0) {
+      const filteredIngredientsItem = (ingredients: Ingredient[]) => {
+        return [...ingredients].sort((a: Ingredient, b: Ingredient) => a.id - b.id);
+      };
+
+      const filteredIngredients = (ingredients: number[]) => {
+        return [...ingredients].sort((a: number, b: number) => a - b);
+      };
+
+      findCartItem = findCartItems.find(
+        (item: CartItemWithIngredientsRelations) =>
+          data.ingredients?.length === item.ingredients.length &&
+          filteredIngredientsItem(item.ingredients).every(
+            (val: Ingredient, index: number) =>
+              data.ingredients && val.id === filteredIngredients(data.ingredients)[index],
+          ),
+      );
+    }
 
     // Если товар в корзине был найден, делаем + 1
     if (findCartItem) {
@@ -91,7 +110,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const updatedUserCart = await updateCartTotalAmount(token);
+    const updatedUserCart: Cart | 0 = await updateCartTotalAmount(token);
     const resp = NextResponse.json(updatedUserCart);
 
     resp.cookies.set('cartToken', token);
