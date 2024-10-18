@@ -3,11 +3,11 @@
 import { FC } from 'react';
 import { cn } from '@/shared/lib/utils';
 import { CartItemDetailsImage } from '@/shared/components/cart-item-details/cart-item-details-image';
-import { CartItemProps } from '@/shared/components/cart-item-details/cart-item-details.types';
 import { CartItemInfo } from '@/shared/components/cart-item-details/cart-item-info';
 import { CountButton } from '@/shared/components/count-button';
 import { CartItemDetailsPrice } from '@/shared/components/cart-item-details/cart-item-details-price';
 import { Trash2Icon } from 'lucide-react';
+import { CartItemProps } from '@/@types/types';
 
 interface CartDrawerItemProps extends CartItemProps {
   className?: string;
@@ -24,9 +24,10 @@ export const CartDrawerItem: FC<CartDrawerItemProps> = ({
   quantity,
   onClickCountButton,
   onClickRemoveButton,
+  disabled,
 }) => {
   return (
-    <div className={cn('flex bg-white p-5 gap-6', className)}>
+    <div className={cn('flex bg-white p-5 gap-6', { 'opacity-50 pointer-event-none': disabled }, className)}>
       <CartItemDetailsImage src={imageUrl} />
 
       <div className="flex-1">

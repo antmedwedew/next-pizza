@@ -6,11 +6,11 @@ interface ProductImageProps {
   url: string;
   alt: string;
   size?: 20 | 30 | 40;
-  isBcg?: boolean;
-  isDashed?: boolean;
+  isBcg: boolean;
+  isDashed: boolean;
 }
 
-export const ProductImage: FC<ProductImageProps> = ({ className, url, alt, size, isBcg = true, isDashed = true }) => {
+export const ProductImage: FC<ProductImageProps> = ({ className, url, alt, size, isBcg, isDashed }) => {
   return (
     <div
       className={cn('rounded-lg relative flex items-center justify-center w-[570px] h-[570px]', className, {

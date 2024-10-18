@@ -20,6 +20,7 @@ interface ChoosePizzaFormProps {
   variants: ProductVariant[];
   onClickAdd: (itemId: number | undefined, ingredients: number[]) => void;
   isLoading: boolean;
+  isModal: boolean;
 }
 
 export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
@@ -30,6 +31,7 @@ export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
   ingredients,
   onClickAdd,
   isLoading,
+  isModal,
 }) => {
   const { size, type, setSize, setType, selectedIngredients, toggleIngredient, availablePizzaSizes, currentVariantId } =
     usePizzaOptions(variants);
@@ -39,9 +41,9 @@ export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
 
   return (
     <div className={cn('flex flex-1', className)}>
-      <ProductImage url={imageUrl} alt={name} size={size} className="flex-1 h-full" isBcg={false} isDashed={true} />
+      <ProductImage url={imageUrl} alt={name} size={size} className="flex-1 h-full" isBcg={!isModal} isDashed={true} />
 
-      <div className="bg-[#F4F1EE] flex-1 p-8 rounded-r-2xl">
+      <div className={cn('flex-1 rounded-r-2xl', { 'bg-[#F4F1EE] p-8': isModal, 'pl-8': !isModal })}>
         <Title text={name} size="md" className="font-extrabold mb-1" />
 
         <p className="text-gray-400">

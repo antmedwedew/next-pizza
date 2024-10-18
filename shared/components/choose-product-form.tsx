@@ -11,6 +11,7 @@ interface ChooseProductFormProps {
   price: number;
   onClickAdd: VoidFunction;
   isLoading: boolean;
+  isModal: boolean;
 }
 
 export const ChooseProductForm: FC<ChooseProductFormProps> = ({
@@ -20,12 +21,13 @@ export const ChooseProductForm: FC<ChooseProductFormProps> = ({
   price,
   onClickAdd,
   isLoading,
+  isModal,
 }) => {
   return (
     <div className={cn('flex flex-1', className)}>
-      <ProductImage url={imageUrl} alt={name} size={30} className="flex-1 h-full" isBcg={false} isDashed={false} />
+      <ProductImage url={imageUrl} alt={name} size={30} className="flex-1 h-full" isBcg={!isModal} isDashed={false} />
 
-      <div className="bg-[#F4F1EE] flex-1 p-10 rounded-r-2xl">
+      <div className={cn('flex-1 rounded-r-2xl', { 'bg-[#F4F1EE] p-8': isModal, 'pl-8': !isModal })}>
         <Title text={name} size="md" className="font-extrabold mb-1" />
 
         <Button
