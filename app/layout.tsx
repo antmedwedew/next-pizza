@@ -19,7 +19,7 @@ export default function RootRootLayout({
       <head>
         <link data-rh="true" rel="icon" href="/logo.png" />
       </head>
-      <body suppressHydrationWarning={true} className={nunito.variable}>
+      <body suppressHydrationWarning={true} className={nunito.className}>
         {children}
         <Toaster />
       </body>

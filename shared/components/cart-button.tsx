@@ -5,14 +5,14 @@ import { ArrowRight, ShoppingCart } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { cn, priceRu } from '@/shared/lib/utils';
 import { CartDrawer } from '@/shared/components/cart-drawer';
-import { useCartStore } from '@/shared/store/cart';
+import { useCart } from '@/shared/my-hooks/use-cart';
 
 interface CartButtonProps {
   className?: string;
 }
 
 export const CartButton: FC<CartButtonProps> = ({ className }) => {
-  const [totalAmount, isLoading, items] = useCartStore((state) => [state.totalAmount, state.isLoading, state.items]);
+  const { isLoading, totalAmount, items } = useCart();
 
   return (
     <CartDrawer>

@@ -4,9 +4,9 @@ import { FC } from 'react';
 import { ChoosePizzaForm } from '@/shared/components/choose-pizza-form';
 import { ChooseProductForm } from '@/shared/components/choose-product-form';
 import { ProductVariant } from '@prisma/client';
-import { useCartStore } from '@/shared/store/cart';
 import toast from 'react-hot-toast';
 import { ProductWithRelations } from '@/@types/prisma';
+import { useCart } from '@/shared/my-hooks/use-cart';
 
 interface ProductFormProps {
   product: ProductWithRelations;
@@ -15,7 +15,7 @@ interface ProductFormProps {
 }
 
 export const ProductForm: FC<ProductFormProps> = ({ product, isModal, onSubmitCallback }) => {
-  const [addCartItem, isLoading] = useCartStore((state) => [state.addCartItem, state.isLoading]);
+  const { addCartItem, isLoading } = useCart();
 
   const firstItem: ProductVariant = product.variants[0];
   const isPizzaForm: boolean = Boolean(firstItem.pizzaType);

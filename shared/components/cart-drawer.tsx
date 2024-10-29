@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, PropsWithChildren, useEffect } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import Image from 'next/image';
 import {
   Sheet,
@@ -16,26 +16,17 @@ import { Button } from '@/shared/components/ui/button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { CartDrawerItem } from '@/shared/components/cart-drawer-item';
 import { getProductItemDetails } from '@/shared/lib/get-product-item-details';
-import { ICartItem, useCartStore } from '@/shared/store/cart';
+import { ICartItem } from '@/shared/store/cart';
 import { PizzaSize, PizzaType } from '@/shared/constants/pizza';
 import { cn, decOfNumber, priceRu } from '@/shared/lib/utils';
 import { DialogDescription, DialogTitle } from '@/shared/components/ui/dialog';
 import { Title } from '@/shared/components/title';
+import { useCart } from '@/shared/my-hooks/use-cart';
 
 interface CartDrawerProps {}
 
 export const CartDrawer: FC<PropsWithChildren<CartDrawerProps>> = ({ children }) => {
-  const [totalAmount, items, getCartItems, updateItemQuantity, removeCartItem] = useCartStore((state) => [
-    state.totalAmount,
-    state.items,
-    state.getCartItems,
-    state.updateItemQuantity,
-    state.removeCartItem,
-  ]);
-
-  useEffect(() => {
-    getCartItems();
-  }, []);
+  const { updateItemQuantity, totalAmount, items, removeCartItem } = useCart();
 
   const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
     const newQuantity: number = type === 'plus' ? quantity + 1 : quantity - 1;
@@ -47,9 +38,7 @@ export const CartDrawer: FC<PropsWithChildren<CartDrawerProps>> = ({ children })
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
 
-      <SheetContent
-        className={cn('flex flex-col pb-0 bg-[#F4F1EE]', !totalAmount ? 'justify-center' : 'justify-between')}
-      >
+      <SheetContent className={cn('flex flex-col pb-0 bg-page', !totalAmount ? 'justify-center' : 'justify-between')}>
         <DialogTitle title="" className="hidden" />
         <DialogDescription title="" className="hidden" />
         {totalAmount > 0 ? (
@@ -99,7 +88,7 @@ export const CartDrawer: FC<PropsWithChildren<CartDrawerProps>> = ({ children })
                   <div className="font-bold text-lg">{priceRu(totalAmount)}</div>
                 </div>
 
-                <Link href="/cart">
+                <Link href="/checkout">
                   <Button className="w-full h-12 text-base" type="submit">
                     Оформить заказ
                     <ArrowRight size={20} className="ml-2" />

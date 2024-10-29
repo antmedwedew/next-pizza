@@ -43,7 +43,7 @@ export const ChoosePizzaForm: FC<ChoosePizzaFormProps> = ({
     <div className={cn('flex flex-1', className)}>
       <ProductImage url={imageUrl} alt={name} size={size} className="flex-1 h-full" isBcg={!isModal} isDashed={true} />
 
-      <div className={cn('flex-1 rounded-r-2xl', { 'bg-[#F4F1EE] p-8': isModal, 'pl-8': !isModal })}>
+      <div className={cn('flex-1 rounded-r-2xl', { 'bg-page p-8': isModal, 'pl-8': !isModal })}>
         <Title text={name} size="md" className="font-extrabold mb-1" />
 
         <p className="text-gray-400">

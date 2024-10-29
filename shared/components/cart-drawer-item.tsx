@@ -3,7 +3,7 @@
 import { FC } from 'react';
 import { cn } from '@/shared/lib/utils';
 import { CartItemDetailsImage } from '@/shared/components/cart-item-details/cart-item-details-image';
-import { CartItemInfo } from '@/shared/components/cart-item-details/cart-item-info';
+import { CartItemDetailsInfo } from '@/shared/components/cart-item-details/cart-item-details-info';
 import { CountButton } from '@/shared/components/count-button';
 import { CartItemDetailsPrice } from '@/shared/components/cart-item-details/cart-item-details-price';
 import { Trash2Icon } from 'lucide-react';
@@ -32,7 +32,7 @@ export const CartDrawerItem: FC<CartDrawerItemProps> = ({
 
       <div className="flex-1">
         <div className="flex justify-between">
-          <CartItemInfo name={name} details={details} className="flex-1" />
+          <CartItemDetailsInfo name={name} details={details} className="flex-1" />
           <Trash2Icon
             className="text-gray-400 cursor-pointer hover:text-gray-600 transition-all"
             size={16}
