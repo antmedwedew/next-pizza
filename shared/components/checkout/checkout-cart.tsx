@@ -29,11 +29,11 @@ export const CheckoutCart: FC<CheckoutCartProps> = ({ items, isLoading, onClickC
                 key={item.id}
                 id={item.id}
                 imageUrl={item.imageUrl}
-                details={
-                  item.pizzaType && item.pizzaSize
-                    ? getProductItemDetails(item.ingredients, item.pizzaType as PizzaType, item.pizzaSize as PizzaSize)
-                    : ''
-                }
+                details={getProductItemDetails(
+                  item.ingredients,
+                  item.pizzaType as PizzaType,
+                  item.pizzaSize as PizzaSize,
+                )}
                 name={item.name}
                 price={item.price}
                 quantity={item.quantity}
