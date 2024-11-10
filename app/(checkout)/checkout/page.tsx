@@ -4,20 +4,12 @@ import { Title } from '@/shared/components/title';
 import { WhiteBlock } from '@/shared/components/white-block';
 import { Input } from '@/shared/components/ui/input';
 import { Textarea } from '@/shared/components/ui/textarea';
-import { priceRu } from '@/shared/lib/utils';
-import { Button } from '@/shared/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 import { CheckoutCart } from '@/shared/components/checkout/checkout-cart';
 import { useCart } from '@/shared/my-hooks/use-cart';
+import { CheckoutSidebar } from '@/shared/components/checkout/checkout-sidebar';
 
 export default function CheckoutPage() {
-  const { updateItemQuantity, items, isLoading, totalAmount, removeCartItem } = useCart();
-
-  const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
-    const newQuantity: number = type === 'plus' ? quantity + 1 : quantity - 1;
-
-    updateItemQuantity(id, newQuantity);
-  };
+  const { items, isLoading, totalAmount, removeCartItem, updateItemCount } = useCart();
 
   return (
     <div className="pt-10">
@@ -28,7 +20,7 @@ export default function CheckoutPage() {
           <CheckoutCart
             items={items}
             isLoading={isLoading}
-            onClickCountButton={onClickCountButton}
+            onClickCountButton={updateItemCount}
             onClickRemoveButton={removeCartItem}
           />
 
@@ -49,18 +41,7 @@ export default function CheckoutPage() {
           </WhiteBlock>
         </div>
 
-        <div className="w-[450px]">
-          <WhiteBlock className="sticky top-4">
-            <div className="flex flex-col gap-1">
-              <span className="text-xl">Итого:</span>
-              <span className="text-[34px] font-extrabold">{priceRu(totalAmount)}</span>
-            </div>
-
-            <Button className="w-full h-14 rounded-2xl mt-6 text-base font-bold">
-              Перейти к оплате <ArrowRight size={20} className="ml-2" />
-            </Button>
-          </WhiteBlock>
-        </div>
+        <CheckoutSidebar totalAmount={totalAmount} />
       </div>
     </div>
   );

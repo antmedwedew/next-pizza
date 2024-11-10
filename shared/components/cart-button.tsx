@@ -4,8 +4,8 @@ import { FC } from 'react';
 import { ArrowRight, ShoppingCart } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { cn, priceRu } from '@/shared/lib/utils';
-import { CartDrawer } from '@/shared/components/cart-drawer';
 import { useCart } from '@/shared/my-hooks/use-cart';
+import { CartDrawer } from '@/shared/components/cart-drawer/cart-drawer';
 
 interface CartButtonProps {
   className?: string;

@@ -16,7 +16,7 @@ export interface ICartItem {
   ingredients: Array<{ name: string; price: number }>;
 }
 
-interface CartStateType {
+export interface CartStateType {
   isLoading: boolean;
   isError: boolean;
   totalAmount: number;
@@ -46,7 +46,11 @@ export const useCartStore = create<CartStateType>()((set) => ({
   },
   updateItemQuantity: async (id: number, quantity: number) => {
     try {
-      set({ isLoading: true, isError: false });
+      set((state) => ({
+        isLoading: false,
+        isError: false,
+        items: state.items.map((item: ICartItem) => (item.id === id ? { ...item, disabled: true } : item)),
+      }));
       const data: CartWithRelations = await Api.cart.updateItemQuantity(id, quantity);
       set(getCartDetails(data));
     } catch (err) {
@@ -58,7 +62,7 @@ export const useCartStore = create<CartStateType>()((set) => ({
   removeCartItem: async (id: number) => {
     try {
       set((state) => ({
-        isLoading: true,
+        isLoading: false,
         isError: false,
         items: state.items.map((item: ICartItem) => (item.id === id ? { ...item, disabled: true } : item)),
       }));

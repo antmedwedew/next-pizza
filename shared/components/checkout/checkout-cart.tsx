@@ -34,6 +34,7 @@ export const CheckoutCart: FC<CheckoutCartProps> = ({ items, isLoading, onClickC
                   item.pizzaType as PizzaType,
                   item.pizzaSize as PizzaSize,
                 )}
+                disabled={item.disabled}
                 name={item.name}
                 price={item.price}
                 quantity={item.quantity}
