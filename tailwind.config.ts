@@ -47,6 +47,9 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        page: {
+          DEFAULT: 'var(--page)',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

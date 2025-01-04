@@ -78,14 +78,22 @@ export async function POST(req: NextRequest) {
         return [...ingredients].sort((a: number, b: number) => a - b);
       };
 
-      findCartItem = findCartItems.find(
-        (item: CartItemWithIngredientsRelations) =>
-          data.ingredients?.length === item.ingredients.length &&
-          filteredIngredientsItem(item.ingredients).every(
-            (val: Ingredient, index: number) =>
-              data.ingredients && val.id === filteredIngredients(data.ingredients)[index],
-          ),
-      );
+      if (data.ingredients) {
+        findCartItem = findCartItems.find(
+          (item: CartItemWithIngredientsRelations) =>
+            data.ingredients?.length === item.ingredients.length &&
+            filteredIngredientsItem(item.ingredients).every(
+              (val: Ingredient, index: number) =>
+                data.ingredients && val.id === filteredIngredients(data.ingredients)[index],
+            ),
+        );
+      } else {
+        findCartItem = findCartItems.find(
+          (item: CartItemWithIngredientsRelations) => item.productVariantId === data.productVariantId,
+        );
+      }
+
+      console.log(findCartItem);
     }
 
     // Если товар в корзине был найден, делаем + 1

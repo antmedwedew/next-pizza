@@ -1,4 +1,6 @@
-import { FC } from 'react';
+'use client';
+
+import { FC, useEffect } from 'react';
 import Image from 'next/image';
 import { User } from 'lucide-react';
 import Link from 'next/link';
@@ -7,14 +9,28 @@ import { SearchInput } from '@/shared/components/search-input';
 import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
 import { CartButton } from '@/shared/components/cart-button';
+import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface HeaderProps {
   className?: string;
+  isSearch?: boolean;
+  isCart?: boolean;
 }
 
-export const Header: FC<HeaderProps> = ({ className }) => {
+export const Header: FC<HeaderProps> = ({ className, isSearch = true, isCart = true }) => {
+  const searchParams: ReadonlyURLSearchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.has('paid')) {
+      setTimeout(() => {
+        toast.success('Заказ успешно оплачен! Информация отправлена на почту.');
+      }, 500);
+    }
+  }, []);
+
   return (
-    <header className={cn('border border-b', className)}>
+    <header className={cn('border-b', className)}>
       <Container className="flex items-center justify-between py-8">
         <Link href="/" className="flex items-center gap-4">
           <Image src="/logo.png" alt="logo" width={35} height={35} />
@@ -24,9 +40,11 @@ export const Header: FC<HeaderProps> = ({ className }) => {
           </div>
         </Link>
 
-        <div className="mx-10 flex-1">
-          <SearchInput />
-        </div>
+        {isSearch && (
+          <div className="mx-10 flex-1">
+            <SearchInput />
+          </div>
+        )}
 
         <div className="flex items-center gap-3">
           <Button variant="outline" className="flex items-center gap-1">
@@ -34,7 +52,7 @@ export const Header: FC<HeaderProps> = ({ className }) => {
             Войти
           </Button>
 
-          <CartButton />
+          {isCart && <CartButton />}
         </div>
       </Container>
     </header>
