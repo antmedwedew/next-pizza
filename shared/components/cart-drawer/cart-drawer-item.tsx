@@ -7,9 +7,9 @@ import { CartItemDetailsInfo } from '@/shared/components/cart-item-details/cart-
 import { CountButton } from '@/shared/components/count-button';
 import { CartItemDetailsPrice } from '@/shared/components/cart-item-details/cart-item-details-price';
 import { Trash2Icon } from 'lucide-react';
-import { CartItemProps } from '@/@types/types';
+import { CartItemType } from '@/@types/types';
 
-interface CartDrawerItemProps extends CartItemProps {
+interface CartDrawerItemProps extends CartItemType {
   className?: string;
   onClickCountButton?: (type: 'plus' | 'minus') => void;
   onClickRemoveButton?: () => void;

@@ -3,19 +3,19 @@
 import { FC } from 'react';
 import { cn } from '@/shared/lib/utils';
 import { X } from 'lucide-react';
-import { CartItemProps } from '@/@types/types';
+import { CartItemType } from '@/@types/types';
 import { CartItemDetailsImage } from '@/shared/components/cart-item-details/cart-item-details-image';
 import { CartItemDetailsInfo } from '@/shared/components/cart-item-details/cart-item-details-info';
 import { CountButton } from '@/shared/components/count-button';
 import { CartItemDetailsPrice } from '@/shared/components/cart-item-details/cart-item-details-price';
 
-interface Props extends CartItemProps {
+interface CheckoutItemProps extends CartItemType {
   onClickCountButton?: (type: 'plus' | 'minus') => void;
   onClickRemoveButton?: () => void;
   className?: string;
 }
 
-export const CheckoutItem: FC<Props> = ({
+export const CheckoutItem: FC<CheckoutItemProps> = ({
   name,
   price,
   imageUrl,

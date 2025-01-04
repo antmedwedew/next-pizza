@@ -6,9 +6,10 @@ import { ArrowRight } from 'lucide-react';
 
 interface CheckoutSidebarProps {
   totalAmount: number;
+  isLoading: boolean;
 }
 
-export const CheckoutSidebar: FC<CheckoutSidebarProps> = ({ totalAmount }) => (
+export const CheckoutSidebar: FC<CheckoutSidebarProps> = ({ totalAmount, isLoading }) => (
   <div className="w-[450px]">
     <WhiteBlock className="sticky top-4">
       <div className="flex flex-col gap-1">
@@ -16,8 +17,8 @@ export const CheckoutSidebar: FC<CheckoutSidebarProps> = ({ totalAmount }) => (
         <span className="text-[34px] font-extrabold">{priceRu(totalAmount)}</span>
       </div>
 
-      <Button className="w-full h-14 rounded-2xl mt-6 text-base font-bold">
-        Перейти к оплате <ArrowRight size={20} className="ml-2" />
+      <Button className="w-full h-14 rounded-2xl mt-6 text-base font-bold" loading={isLoading}>
+        Оформить заказ <ArrowRight size={20} className="ml-2" />
       </Button>
     </WhiteBlock>
   </div>

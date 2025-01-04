@@ -9,9 +9,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckoutPersonalForm } from '@/shared/components/checkout/checkout-personal-form';
 import { CheckoutAddressForm } from '@/shared/components/checkout/checkout-address-form';
 import { checkoutFormSchema, CheckoutFormType } from '@/shared/form-schemas/checkout-form-schema';
+import { createOrder } from '@/app/actions';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import { useRouter } from 'next/navigation';
 
 export default function CheckoutPage() {
   const { items, isLoading, totalAmount, removeCartItem, updateItemCount } = useCart();
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const router: AppRouterInstance = useRouter();
 
   const form = useForm<CheckoutFormType>({
     resolver: zodResolver(checkoutFormSchema),
@@ -25,8 +32,20 @@ export default function CheckoutPage() {
     },
   });
 
-  const onSubmit = (data: CheckoutFormType) => {
-    console.log(data);
+  const onSubmit = async (data: CheckoutFormType) => {
+    try {
+      setSubmitting(true);
+      const url = await createOrder(data);
+      toast.success('Заказ успешно оформлен! Переход на оплату');
+
+      if (url) {
+        location.href = url;
+      }
+    } catch (err) {
+      console.log(err);
+      setSubmitting(false);
+      toast.error('Не удалось создать заказ');
+    }
   };
 
   return (
@@ -44,11 +63,10 @@ export default function CheckoutPage() {
             />
 
             <CheckoutPersonalForm />
-
             <CheckoutAddressForm />
           </div>
 
-          <CheckoutSidebar totalAmount={totalAmount} />
+          <CheckoutSidebar isLoading={isLoading || submitting} totalAmount={totalAmount} />
         </form>
       </FormProvider>
     </div>

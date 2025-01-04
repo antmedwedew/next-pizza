@@ -14,36 +14,36 @@ interface CheckoutCartProps {
 }
 
 export const CheckoutCart: FC<CheckoutCartProps> = ({ items, isLoading, onClickCountButton, onClickRemoveButton }) => {
+  const renderSkeleton = () =>
+    [...Array(3)].map((_, index) => (
+      <CheckoutItemSkeleton key={index} className="py-5 first:pt-0 last:pb-0 border-b last:mb-0 last:border-b-0" />
+    ));
+
+  const renderItems = () => {
+    if (items.length) {
+      return items.map((item: ICartItem) => (
+        <CheckoutItem
+          key={item.id}
+          id={item.id}
+          imageUrl={item.imageUrl}
+          details={getProductItemDetails(item.ingredients, item.pizzaType as PizzaType, item.pizzaSize as PizzaSize)}
+          disabled={item.disabled}
+          name={item.name}
+          price={item.price}
+          quantity={item.quantity}
+          onClickCountButton={(type: 'plus' | 'minus') => onClickCountButton(item.id, item.quantity, type)}
+          onClickRemoveButton={() => onClickRemoveButton(item.id)}
+          className="py-5 first:pt-0 last:pb-0 border-b last:mb-0 last:border-b-0"
+        />
+      ));
+    } else {
+      location.href = '/';
+    }
+  };
+
   return (
-    <WhiteBlock title="1. Корзина" endAdornment={<div>Очистить корзину</div>}>
-      <div className="flex flex-col">
-        {isLoading
-          ? [...Array(3)].map((_, index) => (
-              <CheckoutItemSkeleton
-                key={index}
-                className="py-5 first:pt-0 last:pb-0 border-b last:mb-0 last:border-b-0"
-              />
-            ))
-          : items.map((item: ICartItem) => (
-              <CheckoutItem
-                key={item.id}
-                id={item.id}
-                imageUrl={item.imageUrl}
-                details={getProductItemDetails(
-                  item.ingredients,
-                  item.pizzaType as PizzaType,
-                  item.pizzaSize as PizzaSize,
-                )}
-                disabled={item.disabled}
-                name={item.name}
-                price={item.price}
-                quantity={item.quantity}
-                onClickCountButton={(type: 'plus' | 'minus') => onClickCountButton(item.id, item.quantity, type)}
-                onClickRemoveButton={() => onClickRemoveButton(item.id)}
-                className="py-5 first:pt-0 last:pb-0 border-b last:mb-0 last:border-b-0"
-              />
-            ))}
-      </div>
+    <WhiteBlock title="1. Корзина" endAdornment={items.length ? <div>Очистить корзину</div> : false}>
+      <div className="flex flex-col">{isLoading ? renderSkeleton() : renderItems()}</div>
     </WhiteBlock>
   );
 };

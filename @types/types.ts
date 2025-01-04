@@ -3,7 +3,7 @@ export interface CreateCartItemValuesType {
   ingredients?: number[];
 }
 
-export interface CartItemProps {
+export interface CartItemType {
   id: number;
   imageUrl: string;
   details: string;

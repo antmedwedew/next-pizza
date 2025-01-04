@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { FormInput } from '@/shared/form-components/form-input';
 import { WhiteBlock } from '@/shared/components/white-block';
+import { FormInput } from '@/shared/components/form-elements/form-input';
 
 interface CheckoutPersonalFormProps {}
 

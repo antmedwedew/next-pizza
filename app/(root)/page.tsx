@@ -3,9 +3,9 @@ import { Container } from '@/shared/components/container';
 import { Filters } from '@/shared/components/filters';
 import { ProductsGroupList } from '@/shared/components/products-group-list';
 import { Suspense } from 'react';
-import { findPizzas, GetSearchParamsType } from '@/shared/lib/find-pizzas';
 import { Title } from '@/shared/components/title';
 import { CategoryWithRelations } from '@/@types/prisma';
+import { findPizzas, GetSearchParamsType } from '@/shared/api-lib/find-pizzas';
 
 export default async function Home({ searchParams }: { searchParams: GetSearchParamsType }) {
   const categories: CategoryWithRelations[] = await findPizzas(searchParams);
