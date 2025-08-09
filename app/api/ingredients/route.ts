@@ -7,7 +7,7 @@ export async function GET() {
 
     return NextResponse.json(ingredients);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return NextResponse.json({ message: 'Не удалось получить ингредиенты' }, { status: 500 });
   }
 }

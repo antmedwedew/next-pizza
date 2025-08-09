@@ -3,10 +3,13 @@
 import { CheckoutFormType } from '@/shared/form-schemas/checkout-form-schema';
 import { prisma } from '@/prisma/prisma-client';
 import { cookies } from 'next/headers';
-import { $Enums, Cart, Order } from '@prisma/client';
+import { $Enums, Cart, Order, Prisma, User } from '@prisma/client';
 import { sendEmail } from '@/shared/lib/send-email';
 import { PayOrderTemplate } from '@/shared/email-templates/pay-order';
 import { createPayment } from '@/shared/lib/create-payment';
+import { getUserSession } from '@/shared/lib/get-user-session';
+import { hashSync } from 'bcrypt';
+import { VerificationUserTemplate } from '@/shared/email-templates/verification-user';
 import OrderStatus = $Enums.OrderStatus;
 
 export async function createOrder(data: CheckoutFormType) {
@@ -116,7 +119,75 @@ export async function createOrder(data: CheckoutFormType) {
     );
 
     return paymentUrl;
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function updateUserInfo(data: Prisma.UserUpdateInput) {
+  try {
+    const currentUser: User = await getUserSession();
+
+    if (!currentUser) {
+      throw Error();
+    }
+
+    const findUser = await prisma.user.findFirst({
+      where: {
+        id: Number(currentUser.id),
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        id: Number(currentUser.id),
+      },
+      data: {
+        fullName: data.fullName,
+        email: data.email,
+        password: data.password ? hashSync(data.password as string, 10) : findUser?.password,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function registerUser(data: Prisma.UserCreateInput) {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: data.email,
+      },
+    });
+
+    if (user) {
+      if (!user.verified) {
+        throw new Error('Почта не подтверждена');
+      }
+
+      throw new Error('Пользователь уже существует');
+    }
+
+    const createUser = await prisma.user.create({
+      data: {
+        fullName: data.fullName,
+        email: data.email,
+        password: hashSync(data.password, 10),
+      },
+    });
+
+    const code: string = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await prisma.verificationCode.create({
+      data: {
+        code,
+        userId: createUser.id,
+      },
+    });
+
+    await sendEmail(createUser.email, 'Next Pizza / Подтверждение регистрации', VerificationUserTemplate({ code }));
+  } catch (err) {
+    console.error(err);
   }
 }

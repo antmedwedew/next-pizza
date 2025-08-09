@@ -6,19 +6,16 @@ import { useCart } from '@/shared/my-hooks/use-cart';
 import { CheckoutSidebar } from '@/shared/components/checkout/checkout-sidebar';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CheckoutPersonalForm } from '@/shared/components/checkout/checkout-personal-form';
-import { CheckoutAddressForm } from '@/shared/components/checkout/checkout-address-form';
 import { checkoutFormSchema, CheckoutFormType } from '@/shared/form-schemas/checkout-form-schema';
 import { createOrder } from '@/app/actions';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
-import { useRouter } from 'next/navigation';
+import { CheckoutAddressForm } from '@/shared/components/forms/checkout-address-form';
+import { CheckoutPersonalForm } from '@/shared/components/forms/checkout-personal-form';
 
 export default function CheckoutPage() {
   const { items, isLoading, totalAmount, removeCartItem, updateItemCount } = useCart();
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const router: AppRouterInstance = useRouter();
 
   const form = useForm<CheckoutFormType>({
     resolver: zodResolver(checkoutFormSchema),
@@ -42,7 +39,7 @@ export default function CheckoutPage() {
         location.href = url;
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setSubmitting(false);
       toast.error('Не удалось создать заказ');
     }

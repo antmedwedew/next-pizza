@@ -82,20 +82,21 @@ async function up() {
     ],
   });
 
-  await prisma.cart.createMany({
-    data: [{ userId: 1, totalAmount: 1000, token: '111111' }],
-  });
-
-  await prisma.cartItem.create({
-    data: {
-      productVariantId: 5,
-      cartId: 1,
-      quantity: 1,
-      ingredients: {
-        connect: [{ id: 1 }, { id: 2 }, { id: 3 }],
-      },
-    },
-  });
+  // СОЗДАНИЕ корзины не нужно больше
+  // await prisma.cart.createMany({
+  //   data: [{ userId: 1, totalAmount: 1000, token: '111111' }],
+  // });
+  //
+  // await prisma.cartItem.create({
+  //   data: {
+  //     productVariantId: 5,
+  //     cartId: 1,
+  //     quantity: 1,
+  //     ingredients: {
+  //       connect: [{ id: 1 }, { id: 2 }, { id: 3 }],
+  //     },
+  //   },
+  // });
 }
 
 async function down() {
@@ -104,16 +105,16 @@ async function down() {
   await prisma.$executeRaw`TRUNCATE TABLE "Ingredient" RESTART IDENTITY CASCADE`;
   await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`;
   await prisma.$executeRaw`TRUNCATE TABLE "ProductVariant" RESTART IDENTITY CASCADE`;
-  await prisma.$executeRaw`TRUNCATE TABLE "Cart" RESTART IDENTITY CASCADE`;
-  await prisma.$executeRaw`TRUNCATE TABLE "CartItem" RESTART IDENTITY CASCADE`;
+  // await prisma.$executeRaw`TRUNCATE TABLE "Cart" RESTART IDENTITY CASCADE`;
+  // await prisma.$executeRaw`TRUNCATE TABLE "CartItem" RESTART IDENTITY CASCADE`;
 }
 
 async function main() {
   try {
     await down();
     await up();
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error(err);
   }
 }
 

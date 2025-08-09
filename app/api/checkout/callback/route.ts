@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       );
     }
   } catch (err) {
-    console.log('Checkout callback error: ' + err);
+    console.error('Checkout callback error: ' + err);
     return NextResponse.json({ error: 'Checkout callback error' });
   }
 }

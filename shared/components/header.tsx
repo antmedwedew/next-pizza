@@ -2,15 +2,15 @@
 
 import { FC, useEffect } from 'react';
 import Image from 'next/image';
-import { User } from 'lucide-react';
 import Link from 'next/link';
 import { Container } from '@/shared/components/container';
 import { SearchInput } from '@/shared/components/search-input';
-import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
 import { CartButton } from '@/shared/components/cart-button';
-import { ReadonlyURLSearchParams, useSearchParams } from 'next/navigation';
+import { ReadonlyURLSearchParams, useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { ProfileButton } from '@/shared/components/profile-button';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 interface HeaderProps {
   className?: string;
@@ -20,11 +20,25 @@ interface HeaderProps {
 
 export const Header: FC<HeaderProps> = ({ className, isSearch = true, isCart = true }) => {
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
+  const router: AppRouterInstance = useRouter();
 
   useEffect(() => {
+    let message: string = '';
+
     if (searchParams.has('paid')) {
+      message = 'Заказ успешно оплачен! Информация отправлена на почту.';
+    }
+
+    if (searchParams.has('verified')) {
+      message = 'Ваша почта успешно подтверждена.';
+    }
+
+    if (message) {
       setTimeout(() => {
-        toast.success('Заказ успешно оплачен! Информация отправлена на почту.');
+        router.replace('/');
+        toast.success(message, {
+          duration: 5000,
+        });
       }, 500);
     }
   }, []);
@@ -47,11 +61,7 @@ export const Header: FC<HeaderProps> = ({ className, isSearch = true, isCart = t
         )}
 
         <div className="flex items-center gap-3">
-          <Button variant="outline" className="flex items-center gap-1">
-            <User size={16} />
-            Войти
-          </Button>
-
+          <ProfileButton />
           {isCart && <CartButton />}
         </div>
       </Container>
