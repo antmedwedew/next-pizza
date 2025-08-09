@@ -17,8 +17,8 @@ export const useFilterIngredients = (): ReturnFilterIngredients => {
         setIsLoadingIngredients(true);
         const ingredients = await Api.ingredients.getAll();
         setIngredients(ingredients);
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        console.error(err);
       } finally {
         setIsLoadingIngredients(false);
       }

@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@config "../tailwind.config.ts";
 
 html {
   scroll-behavior: smooth;
@@ -81,11 +81,23 @@ input[type='number'] {
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  /** {*/
+  /*  @apply border-border;*/
+  /*}*/
 
   body {
     @apply bg-background text-foreground;
   }
 }
+
+/*#nprogress .bar {*/
+/*  @apply bg-primary !important;*/
+/*}*/
+
+/*#nprogress .peg {*/
+/*  @apply shadow-md shadow-primary !important;*/
+/*}*/
+
+/*#nprogress .spinner-icon {*/
+/*  @apply border-t-primary border-l-primary !important;*/
+/*}*/

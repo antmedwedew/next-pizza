@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(userCart);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return NextResponse.json({ message: 'Не удалось получить корзину' }, { status: 500 });
   }
 }
@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
     resp.cookies.set('cartToken', token);
     return resp;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return NextResponse.json({ message: 'Не удалось создать корзину' }, { status: 500 });
   }
 }
